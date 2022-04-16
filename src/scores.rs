@@ -82,7 +82,7 @@ impl Scores {
         let result = file.write_all(format!("{}§{}\n", user.username, user.score.to_string()).as_bytes());
         match result {
             Err(e) => panic!("Failed to write score\nErr: '{}'", e),
-            Ok(r) => return,
+            Ok(_r) => return,
         }
     }
 }
