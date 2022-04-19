@@ -1,4 +1,5 @@
 // this is for reading from the scores file
+
 #[derive(Clone)]
 pub struct Player {
     pub username: String,

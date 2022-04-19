@@ -7,6 +7,7 @@ use crossterm_cursor::cursor;
 
 mod letter;
 // the game instance
+
 pub struct Game {
     words: Vec<String>,
     pub word: String,
@@ -71,7 +72,7 @@ impl Game {
             // if the guesses character == the character of the word to guess
             if guess_character == to_guess_character {
                 // add the letter to its index position in the array of characters to output
-                chars_to_output[iterator] = letter::Letter{ character: guess_character, colour: 1,};
+                chars_to_output[iterator] = letter::Letter{ character: guess_character, colour: letter::Colour::Green,};
                 // decrement the hashmap of occurances of that letter remaining
                 *characters_in_actual.entry(guess_character).or_insert(1) -=1;
                 // increment the ammount of correct characters by 1
@@ -83,31 +84,31 @@ impl Game {
         for iterator in 0..guess.len() {
             let guess_character: char = guess.chars().nth(iterator).unwrap();
             // if the guesses character is in the word and remaining but not in the right place
-            if characters_in_actual.contains_key(&guess_character) && characters_in_actual[&guess_character] > 0 && chars_to_output[iterator].colour == 4{
-                chars_to_output[iterator] = letter::Letter{ character: guess_character, colour: 2};
+            if characters_in_actual.contains_key(&guess_character) && characters_in_actual[&guess_character] > 0 && chars_to_output[iterator].colour == letter::Colour::None{
+                chars_to_output[iterator] = letter::Letter{ character: guess_character, colour: letter::Colour::Red};
                 // decrement the hashmaps of ocurances of that letter remaining
                 *characters_in_actual.entry(guess_character).or_insert(1) -=1;
                 continue;
             }
             // if the letter is not red or green
-            if chars_to_output[iterator].colour == 4 {
+            if chars_to_output[iterator].colour == letter::Colour::None {
                 // it must be grey
-                chars_to_output[iterator] = letter::Letter{ character: guess_character, colour: 0};
+                chars_to_output[iterator] = letter::Letter{ character: guess_character, colour: letter::Colour::Grey};
             }
         }
 
         for letter in chars_to_output {
             // this should only happen if the character is not overriden from the char array
-            if letter.colour > 2 {
+            if letter.colour == letter::Colour::None {
                 // through an error because it is not garanteed to work
-                panic!("Letter {} is given an invalid colour of {}", letter.character, letter.colour);
+                panic!("Letter {} is given an invalid colour", letter.character);
             }
             // print each letter in the correct colour
             print!("{}", match letter.colour {
                 // if the letter is in the correct place
-                1 => letter.character.to_string().green(),
+                letter::Colour::Green => letter.character.to_string().green(),
                 // if the letter is not in the correct place but is in the word
-                2 => letter.character.to_string().red(),
+                letter::Colour::Red => letter.character.to_string().red(),
                 // if the letter is not in the word
                 _ => letter.character.to_string().normal(),
             });
