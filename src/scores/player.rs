@@ -28,6 +28,18 @@ impl Player {
     // for outputing the score to the screen, if values are needed properly they can be read
     pub fn to_string(&self) -> String {
         // format the username, total score, avg score, and turns played into one string
-        format!("User: {0}\nTotal Score: {1}\nAvg Score: {2}\nTurns Played: {3}", self.username, self.total_score,self.avg_score,self.times_played)
+        let mut line = String::from(" ");
+        for x in 0..self.username.len() {
+            line+="=";
+        }
+        format!(
+        "
+{4}
+|{0}|
+{4}
+    Total Score: {1}
+    Avg Score: {2}
+    Turns Played: {3}",
+         self.username, self.total_score,self.avg_score,self.times_played, line)
     }
 }

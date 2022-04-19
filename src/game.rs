@@ -159,7 +159,7 @@ impl Game {
         let mut cursor = cursor();
             // let the user guess
         let guess_string = self.guess();
-        cursor.move_up(1);
+        cursor.move_up(1).unwrap();
         self.colour_output(guess_string);
     }
 

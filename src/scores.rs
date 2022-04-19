@@ -68,7 +68,7 @@ impl Scores {
         // go through each user in the dictionary
         for key in users_map.keys() {
             // and output there data
-            println!("{}: {}", key, users_map[key].to_string());
+            println!("{}", users_map[key].to_string());
         }
         users_map
     }
